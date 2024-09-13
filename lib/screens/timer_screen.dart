@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:time_tag/main.dart';
 import '../db/task_database.dart';
 import '../models/task.dart';
+import '../widgets/label_button.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -17,6 +18,7 @@ class TimerScreen extends StatefulWidget {
 class TimerScreenState extends State<TimerScreen> {
   final _uuid = const Uuid();
   final _textFieldController = TextEditingController();
+  late Future<List<Map<String, dynamic>>> _getTagCounts;
   late String _currentTask;
   late String _startTime;
   Timer? _timer;
@@ -53,9 +55,23 @@ class TimerScreenState extends State<TimerScreen> {
     });
   }
 
+  List<Widget> buildTagButtons(List<Map<String, dynamic>> tags){
+    return tags.map((tag) => LabelButton(
+      label: tag.values.first,
+      backgroundColor: Colors.white,
+      onPressed: () {
+        var tagString = tag.values.first;
+        _textFieldController.text = tagString;
+        _currentTask = tagString;
+      }
+    )).toList();
+  }
+
   @override
   void initState() {
     super.initState();
+
+    _getTagCounts = TaskDatabase.instance.getTagCountOrder();
     _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
       setState(() {});
     });
@@ -67,48 +83,57 @@ class TimerScreenState extends State<TimerScreen> {
     var stopwatch = Provider.of<MyAppState>(context).stopwatch;
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(50.0),
-        child: Column(
-          children: [
-            Text(
-              _formattedTime(stopwatch),
-              style: const TextStyle(fontSize: 100),
-            ),
-            const SizedBox(height: 20),
-            TextField(
-              decoration: const InputDecoration(labelText: 'Your tag'),
-              controller: _textFieldController,
-              onChanged: (value) {
-                _currentTask = value;
-              },
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: _getTagCounts,
+        builder: (context, snapshot) {
+          final tagCounts = snapshot.data ?? [];
+          return Padding(
+            padding: const EdgeInsets.all(50.0),
+            child: Column(
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue
-                  ),
-                  onPressed: (){
-                    _stopAndSaveTask(stopwatch);
-                  },
-                  child: const Text(
-                    'Record',
-                    style: TextStyle(color: Colors.white)
-                  ),
+                Text(
+                  _formattedTime(stopwatch),
+                  style: const TextStyle(fontSize: 100),
                 ),
-                ElevatedButton(
-                  onPressed: (){
-                    _reset(stopwatch);
+                const SizedBox(height: 20),
+                Row(
+                  children: buildTagButtons(tagCounts),
+                ),
+                TextField(
+                  decoration: const InputDecoration(labelText: 'Your tag'),
+                  controller: _textFieldController,
+                  onChanged: (value) {
+                    _currentTask = value;
                   },
-                  child: const Text('Reset'),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue
+                      ),
+                      onPressed: (){
+                        _stopAndSaveTask(stopwatch);
+                      },
+                      child: const Text(
+                        'Record',
+                        style: TextStyle(color: Colors.white)
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: (){
+                        _reset(stopwatch);
+                      },
+                      child: const Text('Reset'),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
+          );
+        }
       ),
     );
   }
@@ -117,5 +142,5 @@ class TimerScreenState extends State<TimerScreen> {
   void dispose() {
     _timer?.cancel();
     super.dispose();
-  }
+  } 
 }

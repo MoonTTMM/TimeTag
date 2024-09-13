@@ -87,6 +87,14 @@ class TaskDatabase {
     return result.toList();
   }
 
+  Future<List<Map<String, dynamic>>> getTagCountOrder() async {
+    final db = await instance.database;
+    var result = await db.rawQuery(
+      'select taskName, count(taskName) as tag_count from tasks group by taskName order by tag_count desc limit 7'
+    );
+    return result.toList();
+  }
+
   String _formatTime(String timeString) {
     try {
       var dateTime = DateTime.parse(timeString);
