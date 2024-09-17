@@ -1,0 +1,13 @@
+{
+    "title": "TimeTag",
+    "icon": "timetag.icns",
+    "contents": [
+      { "x": 110, "y": 150, "type": "link", "path": "/Applications" },
+      { "x": 190, "y": 150, "type": "file", "path": "TimeTag.app" }
+    ],
+    "window": {
+      "width": 320,
+      "height": 200
+    }
+}
+  

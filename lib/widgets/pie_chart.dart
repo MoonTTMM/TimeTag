@@ -9,7 +9,14 @@ class TagPieChart extends StatelessWidget {
 
   final Map<String, double> values;
   static const List<Color> colorList = [
-    Colors.blue, Colors.green, Color.fromARGB(255, 167, 59, 255), Colors.grey, Color.fromARGB(255, 215, 255, 82)
+    Color.fromARGB(255, 91, 143, 249), 
+    Color.fromARGB(255, 97, 221, 170), 
+    Color.fromARGB(255, 101, 120, 155), 
+    Color.fromARGB(255, 246, 189, 21), 
+    Color.fromARGB(255, 114, 98, 253),
+    Color.fromARGB(255, 120, 211, 248),
+    Color.fromARGB(255, 150, 97, 188),
+    Color.fromARGB(255, 246, 144, 61),
   ];
 
   @override

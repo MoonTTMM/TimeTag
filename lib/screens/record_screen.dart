@@ -90,6 +90,7 @@ class RecordScreenState extends State<RecordScreen> {
             onPressed: () => _selectDate(context, false), 
             child: Text('to: ${formatDate(_endDate)}')
           ),
+          const Text('  ')
         ],
       ),
       body: 
@@ -117,11 +118,26 @@ class RecordScreenState extends State<RecordScreen> {
                               ListTile(
                                 title: Row(
                                   children: [
-                                    Expanded(child: Text(task.taskName)),
+                                    Expanded(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(2.0),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.blue),
+                                          borderRadius: BorderRadius.circular(3.0),
+                                        ),
+                                        child: Text(
+                                          task.taskName,
+                                          style: const TextStyle(
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                      )
+                                    ),
                                     IconButton(
                                       onPressed: () {
                                         deleteTag(task.id);
                                       }, 
+                                      color: Colors.blue,
                                       icon: const Icon(Icons.delete))
                                   ],
                                 ),
