@@ -97,3 +97,5 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+// flutter build macos # build macos app
+// appdmg config.json TimeTag.dmg #  package dmg
