@@ -1,16 +1,28 @@
-# time_tag
+# TimeTag
 
-A new Flutter project.
+Tag where have all your time been.
+
+## Features
+
+1. Totally offline, all your time usage records are stored locally in your pc with sqlite;
+2. Tag your time usage as you like;
+3. A record list to see your time usage history;
+4. A pie chart to see the statistics of time used in a certain period.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Suppose you have got your flutter environment ready. If not, you can just ask any LLM to quick start this part.
 
-A few resources to get you started if this is your first Flutter project:
+### Run with source code
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+You could go to the time_tag directory, and run:\
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```zsh
+#currently only for macos
+flutter run -d macos 
+```
+
+### Run with dmg
+
+You could download and install the dmg to try the app on macos.
+
