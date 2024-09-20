@@ -39,13 +39,16 @@ class TagPieChart extends StatelessWidget {
     var colorSize = colorList.length;
     for (var name in values.keys) {
       var color = colorList[count % colorSize];
-      const fontSize = 16.0;
+      var duration = values[name];
+      var hours = (duration! / 60).round();
+      var mins = (duration % 60).round();
+      const fontSize = 12.0;
       sections.add(PieChartSectionData(
         radius: 100,
         color: color,
-        value: values[name],
-        title: name,
-        titlePositionPercentageOffset: 0.5,
+        value: duration,
+        title: "$name\n$hours""h$mins""m",
+        titlePositionPercentageOffset: 0.8,
         showTitle: true,
         titleStyle: const TextStyle(
           fontSize: fontSize,

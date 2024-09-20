@@ -79,7 +79,10 @@ class RecordScreenState extends State<RecordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Time Flies'),
+        title: const Text(
+          ' Time Flies ...',
+          style: TextStyle(fontWeight: FontWeight.bold)
+        ),
         actions: [
           ElevatedButton(
             onPressed: () => _selectDate(context, true), 
@@ -106,6 +109,9 @@ class RecordScreenState extends State<RecordScreen> {
               } else {
                 final tasks = snapshot.data ?? [];
                 final map = sumTimeByTag(tasks);
+                final totalDuration = map.values.reduce((sum, value) => sum + value);
+                var hours = (totalDuration / 60).round();
+                var mins = (totalDuration % 60).round();
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -146,9 +152,20 @@ class RecordScreenState extends State<RecordScreen> {
                           ],
                     ))),
                     Expanded(
-                      child: SizedBox(
-                        height: 230,
-                        child: TagPieChart(values: map))
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text(
+                              "Total:""$hours""h""$mins""m    ",
+                              style: const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(1.0),
+                            child: TagPieChart(values: map))
+                        ],
+                      )
                     )
                   ],
                 );

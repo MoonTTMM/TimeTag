@@ -105,6 +105,9 @@ class TimerScreenState extends State<TimerScreen> {
                   onChanged: (value) {
                     _currentTask = value;
                   },
+                  onSubmitted: (String value){
+                    _stopAndSaveTask(stopwatch);
+                  },
                 ),
                 const SizedBox(height: 20),
                 Row(
